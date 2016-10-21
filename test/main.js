@@ -34,17 +34,17 @@ group.hideAll();
 group.show('step1');
 
 s1.onclick = function() {
-    group.hideAll('step1');
+    group.hide('step1');
 };
 
 s2.onclick = function() {
-    group.hideAll('step2');
+    group.hide('step2');
 };
 
 s3.onclick = function() {
-    group.hideAll('step3');
+    group.hide('step3');
 };
 
 s4.onclick = function() {
-    group.hideAll('step4');
+    group.hide();
 };

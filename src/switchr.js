@@ -13,7 +13,7 @@
  * NDAYSwitchr - DOM element manipulator
  * @module NDAYSwitchr
  */
-var NDAYSwitchr = (/** @lends module:NDAYSwitchr */function() {
+var NDAYSwitchr = ( /** @lends module:NDAYSwitchr */ function() {
     /* Private */
     var self = this;
     /**
@@ -29,67 +29,90 @@ var NDAYSwitchr = (/** @lends module:NDAYSwitchr */function() {
     this.baseGroupName = 'Father';
 
     this.createGroup = function(key) {
-        var grp = this.Groups[key];
-
-        /**
-         * This is what is used to add DOM elements to the group
-         * @param {string|array} key       This is the key(s) used to identify elements
-         * 
-         * @param {string|array} id        The element's id(s) in the html code
-         * 
-         * @param {string|array} hideHow   The class styles that will be used on the element to hide the element. This will affect all elements added using arrays. This stops the hide/show functions (and their variants) from being hidden using their hidden attribute. So make sure one of the classes has a 'display:none' style.
-         * 
-         * @param {string|array} showHow   These are the styles that will be used when the element is being shown. Remember that having the hideHow param set means that showHow param is required
-         */
-        var add = function(key, id, hideHow, showHow) {
-            if (key.constructor === Array && id.constructor === Array) {
-                for (var i = 0; i < key.length; i++) {
-                    grp.elements[key[i]].domEle = document.getElementById(id[i]);
+        this.Groups[key] = {};
+        this.Groups[key].elements = {};
+        this.Groups[key].getLength = function() {
+            var counter = 0;
+            for (var i in this) {
+                counter++;
+            }
+            return counter;
+        };
+        this.Groups[key].ifKeyExists = function(key) {
+                var exists = false;
+                for (var i in this.elements) {
+                    if (i === key) {
+                        exists = true;
+                    }
                 }
-            } else if (typeof key === 'string' && typeof id === 'string') {
-                grp.elements[key].domEle = document.getElementById(id);
-            };
 
-            if (hideHow) {
-                //then showHow
+                return exists;
+            }
+            /**
+             * This is what is used to add DOM elements to the group
+             * @param {string|array} key       This is the key(s) used to identify elements
+             * 
+             * @param {string|array} id        The element's id(s) in the html code
+             * 
+             * @param {string|array} hideHow   The class styles that will be used on the element to hide the element. This will affect all elements added using arrays. This stops the hide/show functions (and their variants) from being hidden using their hidden attribute. So make sure one of the classes has a 'display:none' style.
+             * 
+             * @param {string|array} showHow   These are the styles that will be used when the element is being shown. Remember that having the hideHow param set means that showHow param is required
+             */
+        this.Groups[key].add = function(key, id /* Add this in v2.0.0 , hideHow, showHow*/ ) {
+            if (!this.ifKeyExists(key)) {
+                if (key.constructor === Array && id.constructor === Array) {
+                    for (var i = 0; i < key.length; i++) {
+                        this.elements[key[i]] = {
+                            'domEle': document.getElementById(id[i])
+                        };
+                    }
+                } else if (typeof key === 'string' && typeof id === 'string') {
+                    this.elements[key] = {
+                        'domEle': document.getElementById(id)
+                    };
+                };
+            } else {
+                console.error("The key (" + key + ") already exists.");
+                console.info("Please use a different key");
+            }
+            console.log(this.elements);
+        };
+
+        this.Groups[key].hide = function(key, ftn) {
+            if (typeof key === 'string') {
+                /* If it's hidden, then keep it hidden. If not, then hide it. */
+                this.elements[key].domEle.hidden = (this.elements[key].domEle.hidden) ? true : true;
+            } else if (!key) {
+                var counter = 0;
+                for (var i in this.elements) {
+                    /* Create getFirst(object) Remove this whole for loop */
+                }
+            }
+
+            /* A custom function that runs after the element has been hidden */
+            if (typeof ftn === 'function' || typeof key === 'function') {
+                ftn();
             }
         };
 
-        var hide = function(key,ftn) {
-            /* If it's hidden, then keep it hidden. If not, then hide it. */
-            grp.elements[key].hidden = (grp.elements[key].hidden) ? true : true;
-
-            /* A custom function that runs after the element has been hidden */
-        };
-
-        var hideAll = function() {
+        this.Groups[key].hideAll = function() {
             //
         };
 
-        var show = function() {
+        this.Groups[key].show = function() {
             //
         };
 
-        var showAll = function() {
+        this.Groups[key].showAll = function() {
             //
-        };
-
-        this.Groups[key] = {
-            'add': add,
-            'hide': hide,
-            'hideAll': hideAll,
-            'show': show,
-            'showAll': showAll,
-            // 'switchr':switchr,
-            'elements': {};
         };
     };
     /* END Private */
 
     /* Public */
-    
+
     this.group = function(key) {
-        
+
         /**
          * This is the object which will be returned for further work
          * @type {Object}
@@ -105,7 +128,7 @@ var NDAYSwitchr = (/** @lends module:NDAYSwitchr */function() {
                 toReturn = this.Groups[i];
                 counter++;
             }
-            if (toReturn) {
+            if (!toReturn) {
                 console.error('There are no groups in the Group Object.');
                 console.info('Please add one or more using the addGroup(key)');
             }
@@ -118,12 +141,12 @@ var NDAYSwitchr = (/** @lends module:NDAYSwitchr */function() {
                 }
             }
             if (!keyFound) {
-                console.error('Your key: '+key+'. was not found in the Group Object.');
+                console.error('Your key: ' + key + '. was not found in the Group Object.');
                 console.info('Please add this key using addGroup(key)');
                 return false;
             }
         }
-
+        console.log(this.Groups)
         return toReturn;
     };
 
@@ -134,10 +157,10 @@ var NDAYSwitchr = (/** @lends module:NDAYSwitchr */function() {
                     this.createGroup(groupKey[i]);
                 }
             } else {
-                console.error("");
+                console.error("Parameter 1's data type should be Array. Data type of inputted parameter " + typeof groupKey);
             }
             /* Comment the code block below because there's no need to rename the default group since it'll be the only one. User will most probably only call .group() since there's only one group */
-            /*else if (typeof groupKey === 'string') {
+            /* else if (typeof groupKey === 'string') {
                 this.baseGroupName = key;
                 this.groups[groupKey];
             }*/
