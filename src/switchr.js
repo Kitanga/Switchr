@@ -6,15 +6,15 @@
  * @author       [Kitanga Nday]{@link https://twitter.com/kitanga_nday}
  * @copyright    2016 Kitanga Nday All rights reserved
  * @license      [MIT License]{@link https://github.com/Kitanga/Impaka/blob/master/LICENSE}
- * @version      0.4.0
+ * @version      0.5.0
  */
 
 /**
  * NDAYSwitchr - DOM element manipulator
- * @module NDAYSwitchr
+ * @namespace NDAYSwitchr
  */
-var NDAYSwitchr = ( /** @lends module:NDAYSwitchr */ function() {
-    /* Private */
+var NDAYSwitchr = ( /** @lends NDAYSwitchr */ function() {
+
     var self = this;
     /**
      * This is where all the groups are
@@ -28,6 +28,27 @@ var NDAYSwitchr = ( /** @lends module:NDAYSwitchr */ function() {
      */
     this.baseGroupName = 'Father';
 
+    this.getFirst = function(_obj) {
+        var toReturn = false;
+
+        if (_obj) {
+            for (var i in _obj) {
+                toReturn = (_obj[i]) ? _obj[i] : false;
+                break;
+            }
+
+            if (!toReturn) {
+                console.error('There are no objects in the object.');
+                console.info('Please add one or more objects inside the given object. So that this function can actually find the first element');
+            }
+        } else {
+            console.error('There are no parameters');
+            console.info('Please add add an object in as a parameter');
+        }
+
+        return toReturn;
+    };
+
     this.createGroup = function(key) {
         this.Groups[key] = {};
         this.Groups[key].elements = {};
@@ -39,25 +60,26 @@ var NDAYSwitchr = ( /** @lends module:NDAYSwitchr */ function() {
             return counter;
         };
         this.Groups[key].ifKeyExists = function(key) {
-                var exists = false;
-                for (var i in this.elements) {
-                    if (i === key) {
-                        exists = true;
-                    }
+            var exists = false;
+            for (var i in this.elements) {
+                if (i === key) {
+                    exists = true;
                 }
-
-                return exists;
             }
-            /**
-             * This is what is used to add DOM elements to the group
-             * @param {string|array} key       This is the key(s) used to identify elements
-             * 
-             * @param {string|array} id        The element's id(s) in the html code
-             * 
-             * @param {string|array} hideHow   The class styles that will be used on the element to hide the element. This will affect all elements added using arrays. This stops the hide/show functions (and their variants) from being hidden using their hidden attribute. So make sure one of the classes has a 'display:none' style.
-             * 
-             * @param {string|array} showHow   These are the styles that will be used when the element is being shown. Remember that having the hideHow param set means that showHow param is required
-             */
+
+            return exists;
+        };
+
+        /**
+         * This is what is used to add DOM elements to the group
+         * @param {string|array} key       This is the key(s) used to identify elements
+         * 
+         * @param {string|array} id        The element's id(s) in the html code
+         * 
+         * @param {string|array} hideHow   The class styles that will be used on the element to hide the element. This will affect all elements added using arrays. This stops the hide/show functions (and their variants) from being hidden using their hidden attribute. So make sure one of the classes has a 'display:none' style.
+         * 
+         * @param {string|array} showHow   These are the styles that will be used when the element is being shown. Remember that having the hideHow param set means that showHow param is required
+         */
         this.Groups[key].add = function(key, id /* Add this in v2.0.0 , hideHow, showHow*/ ) {
             if (!this.ifKeyExists(key)) {
                 if (key.constructor === Array && id.constructor === Array) {
@@ -77,21 +99,19 @@ var NDAYSwitchr = ( /** @lends module:NDAYSwitchr */ function() {
             }
             console.log(this.elements);
         };
-
         this.Groups[key].hide = function(key, ftn) {
             if (typeof key === 'string') {
                 /* If it's hidden, then keep it hidden. If not, then hide it. */
                 this.elements[key].domEle.hidden = (this.elements[key].domEle.hidden) ? true : true;
             } else if (!key) {
-                var counter = 0;
-                for (var i in this.elements) {
-                    /* Create getFirst(object) Remove this whole for loop */
-                }
+                var element = self.getFirst(this.elements);
+                element.domEle.hidden = (this.elements[key].domEle.hidden) ? true : true;
             }
 
             /* A custom function that runs after the element has been hidden */
             if (typeof ftn === 'function' || typeof key === 'function') {
-                ftn();
+                var callBack = ftn || key;
+                callback();
             }
         };
 
