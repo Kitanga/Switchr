@@ -80,7 +80,7 @@ var NDAYSwitchr = ( /** @lends NDAYSwitchr */ function() {
          * 
          * @param {string|array} showHow   These are the styles that will be used when the element is being shown. Remember that having the hideHow param set means that showHow param is required
          */
-        this.Groups[key].add = function(key, id /* Add this in v2.0.0 , hideHow, showHow*/ ) {
+        this.Groups[key].add = function(key, id /* Add this in v2.0.0 , hideHow, showHow */ ) {
             if (!this.ifKeyExists(key)) {
                 if (key.constructor === Array && id.constructor === Array) {
                     for (var i = 0; i < key.length; i++) {
@@ -97,7 +97,6 @@ var NDAYSwitchr = ( /** @lends NDAYSwitchr */ function() {
                 console.error("The key (" + key + ") already exists.");
                 console.info("Please use a different key");
             }
-            console.log(this.elements);
         };
         this.Groups[key].hide = function(key, ftn) {
             if (typeof key === 'string') {
@@ -105,7 +104,9 @@ var NDAYSwitchr = ( /** @lends NDAYSwitchr */ function() {
                 this.elements[key].domEle.hidden = (this.elements[key].domEle.hidden) ? true : true;
             } else if (!key) {
                 var element = self.getFirst(this.elements);
-                element.domEle.hidden = (this.elements[key].domEle.hidden) ? true : true;
+
+                /* Is it more efficient to run code on the DOM */
+                element.domEle.hidden = (this.element.domEle.hidden) ? true : true;
             }
 
             /* A custom function that runs after the element has been hidden */
