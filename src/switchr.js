@@ -46,6 +46,13 @@ var NDAYSwitchr = ( /** @lends NDAYSwitchr */ function() {
                         isType = false;
                     };
                     break;
+                case 'undefined':
+                    if (_obj === undefined) {
+                        isType = true;
+                    } else {
+                        isType = false;
+                    };
+                    break;
                 default:
                     console.error("Error: Something's up with the parameter #2");
                     console.info('Just put the right type please.');
@@ -112,9 +119,9 @@ var NDAYSwitchr = ( /** @lends NDAYSwitchr */ function() {
     };
     this.addGroup = function(group) {
         if (group) {
-            if (typeof group === 'string') { /* If the parameter is a string... */
+            if (self.checkType(group,'string')) { /* If the parameter is a string... */
                 this.createGroup(group); /* Create 1 group using the key as the key */
-            } else if (group.constructor === Array) { /* If the param is an array... */
+            } else if (self.checkType(group,'array')) { /* If the param is an array... */
                 for (var i = 0; i < group.length; i++) {
                     this.createGroup(group[i]); /* Create multiple group objects using the strings in array as keys*/
                 }
@@ -147,13 +154,13 @@ var NDAYSwitchr = ( /** @lends NDAYSwitchr */ function() {
          */
         this.Groups[key].add = function(key, id /* Add this in v2.0.0 , hideHow, showHow */ ) {
             if (!self.ifKeyExists(key, this.elements)) {
-                if (key.constructor === Array && id.constructor === Array) {
+                if (self.checkType(key,'array') && self.checkType(id,'array')) {
                     for (var i = 0; i < key.length; i++) {
                         this.elements[key[i]] = {
                             'domEle': document.getElementById(id[i])
                         };
                     }
-                } else if (typeof key === 'string' && typeof id === 'string') {
+                } else if (self.checkType(key,'string') && self.checkType(id,'string')) {
                     this.elements[key] = {
                         'domEle': document.getElementById(id)
                     };
