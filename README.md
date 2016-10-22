@@ -1,2 +1,2 @@
-# NDAY-Switchr
-Simple code used to switch (hide and show) between elements in html code
+# Switchr
+Simple code used to hide and/or show html elements using javascript (and later CSS).
