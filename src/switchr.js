@@ -28,6 +28,39 @@ var NDAYSwitchr = ( /** @lends NDAYSwitchr */ function() {
      */
     this.baseGroupName = 'Father';
 
+    this.checkType = function(_obj, _type) {
+        if (typeof _obj === 'string' && typeof _type === 'string') {
+            var isType = undefined;
+            switch (_type) {
+                case 'string':
+                    if (typeof _obj === 'string') {
+                        isType = true;
+                    } else {
+                        isType = false;
+                    };
+                    break;
+                case 'array':
+                    if (_obj.constructor === Array) {
+                        isType = true;
+                    } else {
+                        isType = false;
+                    };
+                    break;
+                default:
+                    console.error("Error: Something's up with the parameter #2");
+                    console.info('Just put the right type please.');
+                    break;
+            }
+
+            if (isType !== undefined) {
+                return isType;
+            }
+        } else {
+            console.error("One/All of your params aren't strings");
+            console.info('Please use valid datatype (aka strings!!!!!)');
+        }
+    };
+
     this.getFirst = function(_obj) {
         var toReturn = false;
 
@@ -43,12 +76,54 @@ var NDAYSwitchr = ( /** @lends NDAYSwitchr */ function() {
             }
         } else {
             console.error('There are no parameters');
-            console.info('Please add add an object in as a parameter');
+            console.info('Please add an object in as a parameter');
         }
 
         return toReturn;
     };
 
+    this.ifKeyExists = function(key, _obj) {
+        var exists = false;
+        for (var i in _obj) {
+            if (i === key) {
+                exists = true;
+            }
+        }
+
+        return exists;
+    };
+
+    this.hideMe = function(_ele) {
+        if (_ele) {
+            _ele.hidden = (_ele.hidden) ? '' : true;
+        } else {
+            console.error('There are no parameters');
+            console.info('Please add an html element in as a parameter');
+        }
+    };
+
+    this.showMe = function(_ele) {
+        if (_ele) {
+            _ele.hidden = (_ele.hidden) ? false : '';
+        } else {
+            console.error('There are no parameters');
+            console.info('Please add an html element in as a parameter');
+        }
+    };
+    this.addGroup = function(group) {
+        if (group) {
+            if (typeof group === 'string') { /* If the parameter is a string... */
+                this.createGroup(group); /* Create 1 group using the key as the key */
+            } else if (group.constructor === Array) { /* If the param is an array... */
+                for (var i = 0; i < group.length; i++) {
+                    this.createGroup(group[i]); /* Create multiple group objects using the strings in array as keys*/
+                }
+            }
+        } else {
+            console.error('There are no parameters');
+            console.info('Please add either a string or array of strings as parameter');
+        }
+    }
     this.createGroup = function(key) {
         this.Groups[key] = {};
         this.Groups[key].elements = {};
@@ -58,16 +133,6 @@ var NDAYSwitchr = ( /** @lends NDAYSwitchr */ function() {
                 counter++;
             }
             return counter;
-        };
-        this.Groups[key].ifKeyExists = function(key) {
-            var exists = false;
-            for (var i in this.elements) {
-                if (i === key) {
-                    exists = true;
-                }
-            }
-
-            return exists;
         };
 
         /**
@@ -81,7 +146,7 @@ var NDAYSwitchr = ( /** @lends NDAYSwitchr */ function() {
          * @param {string|array} showHow   These are the styles that will be used when the element is being shown. Remember that having the hideHow param set means that showHow param is required
          */
         this.Groups[key].add = function(key, id /* Add this in v2.0.0 , hideHow, showHow */ ) {
-            if (!this.ifKeyExists(key)) {
+            if (!self.ifKeyExists(key, this.elements)) {
                 if (key.constructor === Array && id.constructor === Array) {
                     for (var i = 0; i < key.length; i++) {
                         this.elements[key[i]] = {
@@ -92,7 +157,11 @@ var NDAYSwitchr = ( /** @lends NDAYSwitchr */ function() {
                     this.elements[key] = {
                         'domEle': document.getElementById(id)
                     };
-                };
+                } else if (typeof key === 'string' && id === undefined) {
+                    this.elements[key] = {
+                        'domEle': document.getElementById(key)
+                    };
+                }
             } else {
                 console.error("The key (" + key + ") already exists.");
                 console.info("Please use a different key");
@@ -101,7 +170,7 @@ var NDAYSwitchr = ( /** @lends NDAYSwitchr */ function() {
         this.Groups[key].hide = function(key, ftn) {
             if (typeof key === 'string') {
                 /* If it's hidden, then keep it hidden. If not, then hide it. */
-                this.elements[key].domEle.hidden = (this.elements[key].domEle.hidden) ? true : true;
+                self.hideMe(this.elements[key].domEle);
             } else if (!key) {
                 var element = self.getFirst(this.elements);
 
@@ -151,7 +220,7 @@ var NDAYSwitchr = ( /** @lends NDAYSwitchr */ function() {
             }
             if (!toReturn) {
                 console.error('There are no groups in the Group Object.');
-                console.info('Please add one or more using the addGroup(key)');
+                console.info('Please add one or more groups using the addGroup(key)');
             }
         } else if (key) {
             var keyFound = false;
