@@ -53,8 +53,22 @@ var NDAYSwitchr = ( /** @lends NDAYSwitchr */ function() {
                         isType = false;
                     };
                     break;
+                case 'function':
+                    if (typeof _obj === 'function') {
+                        isType = true;
+                    } else {
+                        isType = false;
+                    };
+                    break;
+                case 'object':
+                    if (typeof _obj === 'object') {
+                        isType = true;
+                    } else {
+                        isType = false;
+                    };
+                    break;
                 default:
-                    console.error("Error: Something's up with the parameter #2");
+                    console.error("Error: Something's up with parameter #2");
                     console.info('Just put the right type please.');
                     break;
             }
@@ -119,9 +133,9 @@ var NDAYSwitchr = ( /** @lends NDAYSwitchr */ function() {
     };
     this.addGroup = function(group) {
         if (group) {
-            if (self.checkType(group,'string')) { /* If the parameter is a string... */
+            if (self.checkType(group, 'string')) { /* If the parameter is a string... */
                 this.createGroup(group); /* Create 1 group using the key as the key */
-            } else if (self.checkType(group,'array')) { /* If the param is an array... */
+            } else if (self.checkType(group, 'array')) { /* If the param is an array... */
                 for (var i = 0; i < group.length; i++) {
                     this.createGroup(group[i]); /* Create multiple group objects using the strings in array as keys*/
                 }
@@ -154,17 +168,17 @@ var NDAYSwitchr = ( /** @lends NDAYSwitchr */ function() {
          */
         this.Groups[key].add = function(key, id /* Add this in v2.0.0 , hideHow, showHow */ ) {
             if (!self.ifKeyExists(key, this.elements)) {
-                if (self.checkType(key,'array') && self.checkType(id,'array')) {
+                if (self.checkType(key, 'array') && self.checkType(id, 'array')) {
                     for (var i = 0; i < key.length; i++) {
                         this.elements[key[i]] = {
                             'domEle': document.getElementById(id[i])
                         };
                     }
-                } else if (self.checkType(key,'string') && self.checkType(id,'string')) {
+                } else if (self.checkType(key, 'string') && self.checkType(id, 'string')) {
                     this.elements[key] = {
                         'domEle': document.getElementById(id)
                     };
-                } else if (typeof key === 'string' && id === undefined) {
+                } else if (self.checkType(key, 'string') && self.checkType(id, 'undefined')) {
                     this.elements[key] = {
                         'domEle': document.getElementById(key)
                     };
@@ -175,38 +189,47 @@ var NDAYSwitchr = ( /** @lends NDAYSwitchr */ function() {
             }
         };
         this.Groups[key].hide = function(key, ftn) {
-            if (typeof key === 'string') {
+            if (self.checkType(key, 'string')) {
                 /* If it's hidden, then keep it hidden. If not, then hide it. */
                 self.hideMe(this.elements[key].domEle);
             } else if (!key) {
                 var element = self.getFirst(this.elements);
 
                 /* Is it more efficient to run code on the DOM */
-                element.domEle.hidden = (this.element.domEle.hidden) ? true : true;
+                self.hideMe(element);
             }
 
             /* A custom function that runs after the element has been hidden */
-            if (typeof ftn === 'function' || typeof key === 'function') {
+            if (self.checkType(ftn, 'function') || self.checkType(key, 'function')) {
                 var callBack = ftn || key;
                 callback();
             }
         };
 
-        this.Groups[key].hideAll = function() {
-            //
+        this.Groups[key].hideAll = function(key) {
+            
         };
 
-        this.Groups[key].show = function() {
-            //
+        this.Groups[key].show = function(key,ftn) {
+            if (self.checkType(key, 'string')) {
+                /* Show element */
+                self.showMe(this.elements[key].domEle);
+            } else if (!key) {
+                /* Show element */
+                self.showMe(element);
+            }
+
+            /* A custom function that runs after the element has been hidden */
+            if (self.checkType(ftn, 'function') || self.checkType(key, 'function')) {
+                var callBack = ftn || key;
+                callback();
+            }
         };
 
         this.Groups[key].showAll = function() {
             //
         };
     };
-    /* END Private */
-
-    /* Public */
 
     this.group = function(key) {
 
@@ -217,24 +240,18 @@ var NDAYSwitchr = ( /** @lends NDAYSwitchr */ function() {
         var toReturn = {};
 
         if (!key) {
-            var counter = 0;
-            for (var i in this.Groups) {
-                if (counter > 0) {
-                    break;
-                }
-                toReturn = this.Groups[i];
-                counter++;
-            }
+            toReturn = this.getFirst(this.Groups);
             if (!toReturn) {
                 console.error('There are no groups in the Group Object.');
                 console.info('Please add one or more groups using the addGroup(key)');
             }
         } else if (key) {
-            var keyFound = false;
+            var keyFound = false; /* If the key has been found then reference the object it points to */
             for (var i in this.Groups) {
                 if (key === i) {
-                    toReturn = key;
+                    toReturn = this.Groups[key];
                     keyFound = true;
+                    break;
                 }
             }
             if (!keyFound) {
@@ -249,7 +266,7 @@ var NDAYSwitchr = ( /** @lends NDAYSwitchr */ function() {
 
     this.init = function(groupKey) {
         if (groupKey) {
-            if (groupKey.constructor === Array) {
+            if (self.checkType(group, 'array')) {
                 for (var i = 0; i < groupKey.length; i++) {
                     this.createGroup(groupKey[i]);
                 }
@@ -261,11 +278,10 @@ var NDAYSwitchr = ( /** @lends NDAYSwitchr */ function() {
                 this.baseGroupName = key;
                 this.groups[groupKey];
             }*/
-        } else if (!groupKey) {
+        } else {
             this.createGroup(this.baseGroupName);
         }
     };
-    /* END Public */
 
     return this;
 })();
