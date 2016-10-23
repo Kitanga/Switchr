@@ -195,8 +195,7 @@ var NDAYSwitchr = ( /** @lends NDAYSwitchr */ function() {
             } else if (!key) {
                 var element = self.getFirst(this.elements);
 
-                /* Is it more efficient to run code on the DOM */
-                self.hideMe(element);
+                self.hideMe(element.domEle);
             }
 
             /* A custom function that runs after the element has been hidden */
@@ -207,14 +206,20 @@ var NDAYSwitchr = ( /** @lends NDAYSwitchr */ function() {
         };
 
         this.Groups[key].hideAll = function(key) {
-            
+            for (var i in this.elements) { /* For loop through elements and hide them */
+                self.hideMe(this.elements[i].domEle); /* Hide the element */
+            }
+            if (!key) { /* If key doesn't exist */
+                self.showMe(this.elements[key].domEle); /* This shows this element if the key param exists */
+            }
         };
 
-        this.Groups[key].show = function(key,ftn) {
+        this.Groups[key].show = function(key, ftn) {
             if (self.checkType(key, 'string')) {
                 /* Show element */
                 self.showMe(this.elements[key].domEle);
             } else if (!key) {
+                var element = self.getFirst(this.elements); /* Get the first element in the elements object */
                 /* Show element */
                 self.showMe(element);
             }
@@ -226,8 +231,13 @@ var NDAYSwitchr = ( /** @lends NDAYSwitchr */ function() {
             }
         };
 
-        this.Groups[key].showAll = function() {
-            //
+        this.Groups[key].showAll = function(key) {
+            for (var i in this.elements) { /* For loop through elements and show them */
+                self.showMe(this.elements[i].domEle); /* show this element */
+            }
+            if (!key) { /* If key doesn't exist */
+                self.hideMe(this.elements[key].domEle); /* This hides this element if the key param exists */
+            }
         };
     };
 
