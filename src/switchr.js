@@ -16,6 +16,109 @@
 var NDAYSwitchr = ( /** @lends NDAYSwitchr */ function() {
 
     var self = this;
+
+    /* Classes */
+    function Group(key) {
+        this.elements = {};
+        this.getLength = function() {
+            var counter = 0;
+            for (var i in this) {
+                counter++;
+            }
+            return counter;
+        };
+
+        /**
+         * This is what is used to add DOM elements to the group
+         * @param {string|array} key       This is the key(s) used to identify elements
+         * 
+         * @param {string|array} id        The element's id(s) in the html code
+         * 
+         * @param {string|array} hideHow   The class styles that will be used on the element to hide the element. This will affect all elements added using arrays. This stops the hide/show functions (and their variants) from being hidden using their hidden attribute. So make sure one of the classes has a 'display:none' style.
+         * 
+         * @param {string|array} showHow   These are the styles that will be used when the element is being shown. Remember that having the hideHow param set means that showHow param is required
+         */
+        this.add = function(key, id /* Add this in v2.0.0 , hideHow, showHow */ ) {
+            if (!self.ifKeyExists(key, this.elements)) {
+                if (self.checkType(key, 'array') && self.checkType(id, 'array')) {
+                    for (var i = 0; i < key.length; i++) {
+                        this.elements[key[i]] = {
+                            'domEle': document.getElementById(id[i])
+                        };
+                    }
+                } else if (self.checkType(key, 'string') && self.checkType(id, 'string')) {
+                    this.elements[key] = {
+                        'domEle': document.getElementById(id)
+                    };
+                } else if (self.checkType(key, 'string') && self.checkType(id, 'undefined')) {
+                    this.elements[key] = {
+                        'domEle': document.getElementById(key)
+                    };
+                }
+            } else {
+                console.error("The key (" + key + ") already exists.");
+                console.info("Please use a different key");
+            }
+        };
+        this.hide = function(key, ftn) {
+            if (self.checkType(key, 'string')) {
+                /* If it's hidden, then keep it hidden. If not, then hide it. */
+                self.hideMe(this.elements[key].domEle);
+            } else if (!key) {
+                var element = self.getFirst(this.elements);
+
+                self.hideMe(element.domEle);
+            }
+
+            /* A custom function that runs after the element has been hidden */
+            if (self.checkType(ftn, 'function') || self.checkType(key, 'function')) {
+                var callBack = ftn || key;
+                callback();
+            }
+        };
+
+        this.hideAll = function(key) {
+            for (var i in this.elements) { /* For loop through elements and hide them */
+                self.hideMe(this.elements[i].domEle); /* Hide the element */
+                console.log(this.elements[i].domEle.hidden);
+            }
+            if (key) { /* If key doesn't exist */
+                self.showMe(self.getFirst(this.elements).domEle); /* This shows this element if the key param exists */
+            }
+        };
+
+        this.show = function(key, ftn) {
+            if (!key) {
+                var element = self.getFirst(this.elements); /* Get the first element in the elements object */
+                /* Show element */
+                self.showMe(element);
+            } else if (self.checkType(key, 'string')) {
+                /* Show element */
+                self.showMe(this.elements[key].domEle);
+            } else if (self.checkType(key, 'function')) {
+                var callBack = key; /* Set the callBack to ftn if it exists */
+                callBack(); /* Invoke callBack() */
+            }
+
+
+            /* A custom function that runs after the element has been hidden */
+            if (self.checkType(ftn, 'function')) {
+                var callBack = ftn; /* Set the callBack to ftn if it exists */
+                callBack(); /* Invoke callBack() */
+            }
+        };
+
+        this.showAll = function(key) {
+            for (var i in this.elements) { /* For loop through elements and show them */
+                self.showMe(this.elements[i].domEle); /* show this element */
+            }
+            if (key) { /* If key doesn't exist */
+                self.hideMe(this.elements[key].domEle); /* This hides this element if the key param exists */
+            }
+        };
+    }
+    /* END Classes */
+
     /**
      * This is where all the groups are
      * @type {Object}
@@ -29,7 +132,7 @@ var NDAYSwitchr = ( /** @lends NDAYSwitchr */ function() {
     this.baseGroupName = 'Father';
 
     this.checkType = function(_obj, _type) {
-        if (typeof _obj === 'string' && typeof _type === 'string') {
+        if (_obj && typeof _type === 'string') {
             var isType = undefined;
             switch (_type) {
                 case 'string':
@@ -116,7 +219,7 @@ var NDAYSwitchr = ( /** @lends NDAYSwitchr */ function() {
 
     this.hideMe = function(_ele) {
         if (_ele) {
-            _ele.hidden = (_ele.hidden) ? '' : true;
+            _ele.hidden = (_ele.hidden) ? true : true;
         } else {
             console.error('There are no parameters');
             console.info('Please add an html element in as a parameter');
@@ -125,7 +228,7 @@ var NDAYSwitchr = ( /** @lends NDAYSwitchr */ function() {
 
     this.showMe = function(_ele) {
         if (_ele) {
-            _ele.hidden = (_ele.hidden) ? false : '';
+            _ele.hidden = (_ele.hidden) ? false : false;
         } else {
             console.error('There are no parameters');
             console.info('Please add an html element in as a parameter');
@@ -146,99 +249,7 @@ var NDAYSwitchr = ( /** @lends NDAYSwitchr */ function() {
         }
     }
     this.createGroup = function(key) {
-        this.Groups[key] = {};
-        this.Groups[key].elements = {};
-        this.Groups[key].getLength = function() {
-            var counter = 0;
-            for (var i in this) {
-                counter++;
-            }
-            return counter;
-        };
-
-        /**
-         * This is what is used to add DOM elements to the group
-         * @param {string|array} key       This is the key(s) used to identify elements
-         * 
-         * @param {string|array} id        The element's id(s) in the html code
-         * 
-         * @param {string|array} hideHow   The class styles that will be used on the element to hide the element. This will affect all elements added using arrays. This stops the hide/show functions (and their variants) from being hidden using their hidden attribute. So make sure one of the classes has a 'display:none' style.
-         * 
-         * @param {string|array} showHow   These are the styles that will be used when the element is being shown. Remember that having the hideHow param set means that showHow param is required
-         */
-        this.Groups[key].add = function(key, id /* Add this in v2.0.0 , hideHow, showHow */ ) {
-            if (!self.ifKeyExists(key, this.elements)) {
-                if (self.checkType(key, 'array') && self.checkType(id, 'array')) {
-                    for (var i = 0; i < key.length; i++) {
-                        this.elements[key[i]] = {
-                            'domEle': document.getElementById(id[i])
-                        };
-                    }
-                } else if (self.checkType(key, 'string') && self.checkType(id, 'string')) {
-                    this.elements[key] = {
-                        'domEle': document.getElementById(id)
-                    };
-                } else if (self.checkType(key, 'string') && self.checkType(id, 'undefined')) {
-                    this.elements[key] = {
-                        'domEle': document.getElementById(key)
-                    };
-                }
-            } else {
-                console.error("The key (" + key + ") already exists.");
-                console.info("Please use a different key");
-            }
-        };
-        this.Groups[key].hide = function(key, ftn) {
-            if (self.checkType(key, 'string')) {
-                /* If it's hidden, then keep it hidden. If not, then hide it. */
-                self.hideMe(this.elements[key].domEle);
-            } else if (!key) {
-                var element = self.getFirst(this.elements);
-
-                self.hideMe(element.domEle);
-            }
-
-            /* A custom function that runs after the element has been hidden */
-            if (self.checkType(ftn, 'function') || self.checkType(key, 'function')) {
-                var callBack = ftn || key;
-                callback();
-            }
-        };
-
-        this.Groups[key].hideAll = function(key) {
-            for (var i in this.elements) { /* For loop through elements and hide them */
-                self.hideMe(this.elements[i].domEle); /* Hide the element */
-            }
-            if (!key) { /* If key doesn't exist */
-                self.showMe(this.elements[key].domEle); /* This shows this element if the key param exists */
-            }
-        };
-
-        this.Groups[key].show = function(key, ftn) {
-            if (self.checkType(key, 'string')) {
-                /* Show element */
-                self.showMe(this.elements[key].domEle);
-            } else if (!key) {
-                var element = self.getFirst(this.elements); /* Get the first element in the elements object */
-                /* Show element */
-                self.showMe(element);
-            }
-
-            /* A custom function that runs after the element has been hidden */
-            if (self.checkType(ftn, 'function') || self.checkType(key, 'function')) {
-                var callBack = ftn || key;
-                callback();
-            }
-        };
-
-        this.Groups[key].showAll = function(key) {
-            for (var i in this.elements) { /* For loop through elements and show them */
-                self.showMe(this.elements[i].domEle); /* show this element */
-            }
-            if (!key) { /* If key doesn't exist */
-                self.hideMe(this.elements[key].domEle); /* This hides this element if the key param exists */
-            }
-        };
+        this.Groups[key] = new Group(key);
     };
 
     this.group = function(key) {
@@ -276,14 +287,14 @@ var NDAYSwitchr = ( /** @lends NDAYSwitchr */ function() {
 
     this.init = function(groupKey) {
         if (groupKey) {
-            if (self.checkType(group, 'array')) {
+            if (self.checkType(groupKey, 'array')) {
                 for (var i = 0; i < groupKey.length; i++) {
                     this.createGroup(groupKey[i]);
                 }
             } else {
-                console.error("Parameter 1's data type should be Array. Data type of inputted parameter " + typeof groupKey);
+                console.error("Parameter 1's data type should be Array. Data type of inputed parameter " + typeof groupKey);
             }
-            /* Comment the code block below because there's no need to rename the default group since it'll be the only one. User will most probably only call .group() since there's only one group */
+            /* Commentted the code block below because there's no need to rename the default group since it'll be the only one. User will most probably only call .group() since there's only one group */
             /* else if (typeof groupKey === 'string') {
                 this.baseGroupName = key;
                 this.groups[groupKey];
