@@ -4,47 +4,29 @@ var groupKeys = ['step1','step2','step3','step4'],
     s2 = document.getElementById('s2'),
     s3 = document.getElementById('s3'),
     s4 = document.getElementById('s4');
-/*
-s.init(groupKeys, groupIDs);
-s.switchr('step1',null,false);
-
-s1.onclick = function() {
-    s.switchr('step1',null,false);
-};
-
-s2.onclick = function() {
-    s.switchr('step2',null,false);
-};
-
-s3.onclick = function() {
-    s.switchr('step3',null,false);
-};
-
-s4.onclick = function() {
-    s.switchr('step4',null,false);
-};
-*/
 
 /* New Format */
 NS = NDAYSwitchr;
 NS.init();
 var group = NS.group();
 group.add(groupKeys,groupIDs);
+console.info(NS.Groups)
+console.log(group.elements);
 group.hideAll();
-group.show('step1');
+// group.show('step1');
 
 s1.onclick = function() {
-    group.hide('step1');
+    group.show('step1');
 };
 
-s2.onclick = function() {
-    group.hide('step2');
-};
+// s2.onclick = function() {
+//     group.show('step2');
+// };
 
-s3.onclick = function() {
-    group.hide('step3');
-};
+// s3.onclick = function() {
+//     group.show('step3');
+// };
 
-s4.onclick = function() {
-    group.hide();
-};
+// s4.onclick = function() {
+//     group.show('step4');
+// };
