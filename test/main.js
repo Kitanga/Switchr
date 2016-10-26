@@ -16,7 +16,7 @@ group.hideAll();
 // group.show('step1');
 
 s1.onclick = function() {
-    group.show('1');
+    group.showAll('1');
 };
 
 // s2.onclick = function() {

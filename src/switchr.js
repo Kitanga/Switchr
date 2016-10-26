@@ -67,7 +67,7 @@ var NDAYSwitchr = ( /** @lends NDAYSwitchr */ function(win) {
                             'domEle': document.getElementById(id[i])
                         };
                     }
-                } 
+                }
             } else {
                 console.error("The key (" + key + ") already exists.");
                 console.info("Please use a different key");
@@ -105,20 +105,29 @@ var NDAYSwitchr = ( /** @lends NDAYSwitchr */ function(win) {
             if (!key) {
                 var element = self.getFirst(this.elements); /* Get the first element in the elements object */
                 /* Show element */
-                self.showMe(element);
+                self.showMe(element.domEle);
             } else if (self.checkType(key, 'string')) {
                 /* Show element */
                 self.showMe(this.elements[key].domEle);
+            } else if (self.checkType(key, 'array')) {
+                /* Loop through key array and get all keys to be shown */
+                for (var i = 0; i < key.length; i++) {
+                    /* Show elements that have same key as keys in array */
+                    self.showMe(this.element[key[i]].domEle);
+                }
             } else if (self.checkType(key, 'function')) {
+                var element = self.getFirst(this.elements); /* Get the first element in the elements object */
+                /* Show element */
+                self.showMe(element.domEle);
                 var callBack = key; /* Set the callBack to ftn if it exists */
-                callBack(); /* Invoke callBack() */
+                callBack(element.domEle); /* Invoke callBack() */
             }
 
 
             /* A custom function that runs after the element has been hidden */
             if (self.checkType(ftn, 'function')) {
                 var callBack = ftn; /* Set the callBack to ftn if it exists */
-                callBack(); /* Invoke callBack() */
+                callBack(this.elements[key].domEle); /* Invoke callBack() */
             }
         };
 
