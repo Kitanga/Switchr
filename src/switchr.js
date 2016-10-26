@@ -6,14 +6,14 @@
  * @author       [Kitanga Nday]{@link https://twitter.com/kitanga_nday}
  * @copyright    2016 Kitanga Nday All rights reserved
  * @license      [MIT License]{@link https://github.com/Kitanga/Impaka/blob/master/LICENSE}
- * @version      0.5.0
+ * @version      v1.0.0-unstable
  */
 
 /**
  * NDAYSwitchr - DOM element manipulator
  * @namespace NDAYSwitchr
  */
-var NDAYSwitchr = ( /** @lends NDAYSwitchr */ function() {
+var NDAYSwitchr = ( /** @lends NDAYSwitchr */ function(win) {
 
     var self = this;
 
@@ -40,21 +40,34 @@ var NDAYSwitchr = ( /** @lends NDAYSwitchr */ function() {
          */
         this.add = function(key, id /* Add this in v2.0.0 , hideHow, showHow */ ) {
             if (!self.ifKeyExists(key, this.elements)) {
-                if (self.checkType(key, 'array') && self.checkType(id, 'array')) {
+
+                if (self.checkType(key, 'string') && self.checkType(id, 'undefined')) {
+
+                    this.elements[key] = {
+                        'domEle': document.getElementById(key)
+                    };
+
+                } else if (self.checkType(key, 'array') && self.checkType(id, 'undefined')) {
+
+                    for (var i = 0; i < key.length; i++) {
+                        this.elements[key[i]] = {
+                            'domEle': document.getElementById(key[i])
+                        };
+                    }
+
+                } else if (self.checkType(key, 'string') && self.checkType(id, 'string')) {
+
+                    this.elements[key] = {
+                        'domEle': document.getElementById(id)
+                    };
+                } else if (self.checkType(key, 'array') && self.checkType(id, 'array')) {
+
                     for (var i = 0; i < key.length; i++) {
                         this.elements[key[i]] = {
                             'domEle': document.getElementById(id[i])
                         };
                     }
-                } else if (self.checkType(key, 'string') && self.checkType(id, 'string')) {
-                    this.elements[key] = {
-                        'domEle': document.getElementById(id)
-                    };
-                } else if (self.checkType(key, 'string') && self.checkType(id, 'undefined')) {
-                    this.elements[key] = {
-                        'domEle': document.getElementById(key)
-                    };
-                }
+                } 
             } else {
                 console.error("The key (" + key + ") already exists.");
                 console.info("Please use a different key");
@@ -78,9 +91,10 @@ var NDAYSwitchr = ( /** @lends NDAYSwitchr */ function() {
         };
 
         this.hideAll = function(key) {
+
             for (var i in this.elements) { /* For loop through elements and hide them */
                 self.hideMe(this.elements[i].domEle); /* Hide the element */
-                console.log(this.elements[i].domEle.hidden);
+
             }
             if (key) { /* If key doesn't exist */
                 self.showMe(self.getFirst(this.elements).domEle); /* This shows this element if the key param exists */
@@ -132,7 +146,7 @@ var NDAYSwitchr = ( /** @lends NDAYSwitchr */ function() {
     this.baseGroupName = 'Father';
 
     this.checkType = function(_obj, _type) {
-        if (_obj && typeof _type === 'string') {
+        if (typeof _type === 'string') {
             var isType = undefined;
             switch (_type) {
                 case 'string':
@@ -281,7 +295,7 @@ var NDAYSwitchr = ( /** @lends NDAYSwitchr */ function() {
                 return false;
             }
         }
-        console.log(this.Groups)
+
         return toReturn;
     };
 
@@ -305,4 +319,4 @@ var NDAYSwitchr = ( /** @lends NDAYSwitchr */ function() {
     };
 
     return this;
-})();
+})(window);

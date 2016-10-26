@@ -1,5 +1,5 @@
-var groupKeys = ['step1','step2','step3','step4'],
-    groupIDs = ['step1','step2','step3','step4'],
+var groupKeys = ['step1', 'step2', 'step3', 'step4'],
+    groupIDs = ['step1', 'step2', 'step3', 'step4'],
     s1 = document.getElementById('s1'),
     s2 = document.getElementById('s2'),
     s3 = document.getElementById('s3'),
@@ -9,14 +9,14 @@ var groupKeys = ['step1','step2','step3','step4'],
 NS = NDAYSwitchr;
 NS.init();
 var group = NS.group();
-group.add(groupKeys,groupIDs);
+group.add(['1', '2'], ['step1', 'step2']);
 console.info(NS.Groups)
 console.log(group.elements);
 group.hideAll();
 // group.show('step1');
 
 s1.onclick = function() {
-    group.show('step1');
+    group.show('1');
 };
 
 // s2.onclick = function() {
