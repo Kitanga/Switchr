@@ -16,7 +16,11 @@ group.hideAll();
 // group.show('step1');
 
 s1.onclick = function() {
-    group.showAll('1');
+    group.showAll(function() {
+        var a = document.createElement('a');
+        a.innerText = "hello";
+        document.body.appendChild(a);
+    });
 };
 
 // s2.onclick = function() {

@@ -131,12 +131,20 @@ var NDAYSwitchr = ( /** @lends NDAYSwitchr */ function(win) {
             }
         };
 
-        this.showAll = function(key) {
+        this.showAll = function(key, ftn) {
             for (var i in this.elements) { /* For loop through elements and show them */
                 self.showMe(this.elements[i].domEle); /* show this element */
             }
             if (key) { /* If key doesn't exist */
-                self.hideMe(this.elements[key].domEle); /* This hides this element if the key param exists */
+                if (self.checkType(key, 'string')) {
+                    self.hideMe(this.elements[key].domEle); /* This hides this element if the key param exists */
+                } else if (self.checkType(key, 'function')) {
+                    key();
+                }
+            }
+
+            if (self.checkType(ftn, 'function')) {
+                ftn();
             }
         };
     }
