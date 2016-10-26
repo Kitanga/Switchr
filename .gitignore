@@ -1,3 +1,4 @@
 out/
 conf.json
 .vscode
+jsconfig.json
