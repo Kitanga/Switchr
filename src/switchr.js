@@ -73,31 +73,55 @@ var NDAYSwitchr = ( /** @lends NDAYSwitchr */ function(win) {
                 console.info("Please use a different key");
             }
         };
+
+        /**
+         * Hides element(s)
+         * @param  {array|string} key        The key of the element to be hidden
+         * @param  {function} ftn        Function to be invoked after hiding of element
+         */
         this.hide = function(key, ftn) {
-            if (self.checkType(key, 'string')) {
-                /* If it's hidden, then keep it hidden. If not, then hide it. */
-                self.hideMe(this.elements[key].domEle);
-            } else if (!key) {
-                var element = self.getFirst(this.elements);
-
+            if (!key) {
+                var element = self.getFirst(this.elements); /* Get the first element in the elements object */
+                /* Hide element */
                 self.hideMe(element.domEle);
+            } else if (self.checkType(key, 'string')) {
+                /* Hide element */
+                self.hideMe(this.elements[key].domEle);
+            } else if (self.checkType(key, 'array')) {
+                /* Loop through key array and get all keys to be hidden */
+                for (var i = 0; i < key.length; i++) {
+                    /* Hide elements that have same key as keys in array */
+                    self.hideMe(this.element[key[i]].domEle);
+                    /* A custom function that runs after the element has been hidden */
+                    if (self.checkType(ftn, 'function')) {
+                        ftn(this.elements[key[i]].domEle); /* Invoke ftn() */
+                    }
+                }
+            } else if (self.checkType(key, 'function')) {
+                var element = self.getFirst(this.elements); /* Get the first element in the elements object */
+                /* Hide element */
+                self.hideMe(element.domEle);
+                key(element.domEle); /* Invoke callBack() */
             }
-
-            /* A custom function that runs after the element has been hidden */
-            if (self.checkType(ftn, 'function') || self.checkType(key, 'function')) {
-                var callBack = ftn || key;
-                callback();
+            if (self.checkType(ftn, 'function')) {
+                ftn(this.elements[key[i]].domEle); /* Invoke ftn() */
             }
         };
 
         this.hideAll = function(key) {
-
             for (var i in this.elements) { /* For loop through elements and hide them */
-                self.hideMe(this.elements[i].domEle); /* Hide the element */
-
+                self.hideMe(this.elements[i].domEle); /* Hide this element */
             }
             if (key) { /* If key doesn't exist */
-                self.showMe(self.getFirst(this.elements).domEle); /* This shows this element if the key param exists */
+                if (self.checkType(key, 'string')) {
+                    self.showMe(this.elements[key].domEle); /* This shows this element if the key param exists */
+                } else if (self.checkType(key, 'function')) {
+                    key();
+                }
+            }
+
+            if (self.checkType(ftn, 'function')) {
+                ftn();
             }
         };
 
@@ -114,17 +138,19 @@ var NDAYSwitchr = ( /** @lends NDAYSwitchr */ function(win) {
                 for (var i = 0; i < key.length; i++) {
                     /* Show elements that have same key as keys in array */
                     self.showMe(this.element[key[i]].domEle);
+                    if (self.checkType(ftn, 'function')) {
+                        ftn(this.elements[key[i]].domEle); /* Invoke ftn() */
+                    }
                 }
             } else if (self.checkType(key, 'function')) {
                 var element = self.getFirst(this.elements); /* Get the first element in the elements object */
                 /* Show element */
                 self.showMe(element.domEle);
-                var callBack = key; /* Set the callBack to ftn if it exists */
-                callBack(element.domEle); /* Invoke callBack() */
+                key(element.domEle); /* Invoke callBack() */
             }
 
 
-            /* A custom function that runs after the element has been hidden */
+            /* A custom function that runs after the element has been shown */
             if (self.checkType(ftn, 'function')) {
                 var callBack = ftn; /* Set the callBack to ftn if it exists */
                 callBack(this.elements[key].domEle); /* Invoke callBack() */

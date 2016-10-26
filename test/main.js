@@ -12,11 +12,10 @@ var group = NS.group();
 group.add(['1', '2'], ['step1', 'step2']);
 console.info(NS.Groups)
 console.log(group.elements);
-group.hideAll();
-// group.show('step1');
+group.showAll();
 
 s1.onclick = function() {
-    group.showAll(function() {
+    group.hide(['1', '2'], function() {
         var a = document.createElement('a');
         a.innerText = "hello";
         document.body.appendChild(a);
