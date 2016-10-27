@@ -6,30 +6,26 @@ var groupKeys = ['step1', 'step2', 'step3', 'step4'],
     s4 = document.getElementById('s4');
 
 /* New Format */
-NS = NDAYSwitchr;
-NS.init();
-var group = NS.group();
-group.add(['1', '2'], ['step1', 'step2']);
-console.info(NS.Groups);
-console.log(group.elements);
-group.showAll();
+var swr = Switchr;
+swr.init();
+var group = swr.group();
+group.add(['1', '2', '3', '4'], ['step1', 'step2', 'step3', 'step4']);
+group.hideAll();
 
 s1.onclick = function() {
-    group.hide(['1', '2'], function() {
-        var a = document.createElement('a');
-        a.innerText = "hello";
-        document.body.appendChild(a);
+    group.show(function(){
+        alert("Hello!!!!");
     });
 };
 
-// s2.onclick = function() {
-//     group.show('step2');
-// };
+s2.onclick = function() {
+    group.show('2');
+};
 
-// s3.onclick = function() {
-//     group.show('step3');
-// };
+s3.onclick = function() {
+    group.show('3');
+};
 
-// s4.onclick = function() {
-//     group.show('step4');
-// };
+s4.onclick = function() {
+    group.show('4');
+};

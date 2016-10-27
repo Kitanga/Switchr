@@ -6,12 +6,10 @@ var groupKeys = ['step1', 'step2', 'step3', 'step4'],
     s4 = document.getElementById('s4');
 
 /* New Format */
-NS = NDAYSwitchr;
-NS.init();
-var group = NS.group();
+var swr = Switchr;
+swr.init();
+var group = swr.group();
 group.add(['1', '2', '3', '4'], ['step1', 'step2', 'step3', 'step4']);
-console.info(NS.Groups);
-console.log(group.elements);
 group.showAll();
 
 s1.onclick = function() {

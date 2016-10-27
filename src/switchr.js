@@ -13,7 +13,7 @@
  * NDAYSwitchr - DOM element manipulator
  * @namespace NDAYSwitchr
  */
-var NDAYSwitchr = ( /** @lends NDAYSwitchr */ function(win) {
+var Switchr = ( /** @lends NDAYSwitchr */ function(win) {
 
     var self = this;
 
@@ -177,13 +177,13 @@ var NDAYSwitchr = ( /** @lends NDAYSwitchr */ function(win) {
     /* END Classes */
 
     /**
-     * This is where all the groups are
+     * This is where all the groups are stored
      * @type {Object}
      */
     this.Groups = {};
 
     /**
-     * This is the default name for the main group (when the user doesn't define a default name)
+     * This is the default name for the main group (when the user doesn't define a default name). CORRECTION: User will not be allowed to change default name
      * @type {String}
      */
     this.baseGroupName = 'Father';
@@ -292,7 +292,7 @@ var NDAYSwitchr = ( /** @lends NDAYSwitchr */ function(win) {
         }
     };
     this.addGroup = function(group) {
-        if (group) {
+        if (group && this.ifKeyExists(group, this.Groups)) {
             if (self.checkType(group, 'string')) { /* If the parameter is a string... */
                 this.createGroup(group); /* Create 1 group using the key as the key */
             } else if (self.checkType(group, 'array')) { /* If the param is an array... */
@@ -301,7 +301,7 @@ var NDAYSwitchr = ( /** @lends NDAYSwitchr */ function(win) {
                 }
             }
         } else {
-            console.error('There are no parameters');
+            console.error("There are no parameters or your param isn't a string");
             console.info('Please add either a string or array of strings as parameter');
         }
     }
