@@ -1,6 +1,14 @@
 # Switchr
 
-Switchr is a simple API written in JavaScript and used to control a certain section (or whole section) of a webpage. It does this by changing the visibility of an element (whether using JavaScript or using CSS. N.B. CSS will be added later in v2.0.0). In this way you can 'switch' between panels, menu sections, or UI elements.
+Switchr is a simple API written in JavaScript that does very simple DOM manipulations. Curently it only shows and hides elements.
+
+## Contents
+- [Motivation](#motivation)
+- [Installation](#installation)
+- [API Reference](#api-reference)
+- [Tests](#tests)
+- [Contributors](#contributors)
+- [License](#license)
 
 ## Motivation
 
@@ -9,12 +17,12 @@ I wanted to create a small API to control my menus in my games (I develop html5 
 ## Installation
 
 Take a copy of `Switchr.js` from the `src` folder and place it into your projects `js` folder. Then add these lines of code into your index.html (or whatever you called your webpage):
-```javascript
+```html
 <script src="js/Switchr.js"></script>
 <script src="js/main.js"></script>
 ```
 
-## Code Example
+## API Reference
 
 Now in `main.js` you add the code that uses `Switchr.js`
 
@@ -42,24 +50,51 @@ If you've already initialized, but want to add a group you can use `swr.addGroup
 ```javascript
 swr.addGroup(); // Accepts a string or array of strings
 ```
-Coming soon, getting a group for use in Switchr
-
-Lastly, you can check the `test` folder for examples on how to use Switchr.
-## API Reference
-
-Currently, there's no public doc folder. You can however use JSDOC on Switchr.js like so:
-
-```bash
-$ jsdoc Switchr.js
+Now to add elements to the group you'll need to get the group first.
+```javascript
+swr.group(); // This will get the first group (Use this only when you have one group. I.e, you used .init() )
 ```
-This will create HTML files documenting Switchr.js (I, currently, haven't fully documented Switchr, but I will soon)
+And if you have many groups then you can easily get them (I'm trying to rememeber what the term is but can't find the word. Is it to get the reference?) like so
+```javascript
+swr.group('etc');
+// or
+var group = swr.group('etc');
+```
+OK, so on to adding elements to groups
+```javascript
+group.add('me'); // This will add the element with the ID of 'me' and also give it the reference key 'me'
+group.add(['me','me-too']); // Add all elements inside array into group
+group.add('key','id'); // Add an element and define it's key and ID value independently
+group.add(['me','me-too'],['id1','id2']); // Add new elements for each key/string in the first array and use the corresponding ID in the second array
+``` 
+When you want to manipulate elements, you have a couple of options and also a couple of different ways of invoking the option
+```javascript
+// First is the hide/show functions
+// I'll be using the hide function only, but replace it with show, because they are pretty much mirrors of each other.
+group.hide(); // Hide first element
+group.hide('me'); // Hide the element to which key references
+group.hide('me',function(){ console.log('You hid who?')}); // This invokes the function after hiding element
+group.hide(function(){ console.log('Who am I hiding exaclty?')}); // Hides the first element and then invokes function
+group.hide(['me','me-too']); // Hide element to which each key is referencing.
+group.hide(['me','me-too'],function(){ console.log('Hide all the peoples')}); // Hide each element and run the function after each element is hidden. NOT when all elements are hidden but when each single element is hidden.
+
+// Now the second is the hideAll/showAll function
+// Again, I'll use hideAll only and you can also imagine that it was showAll function
+group.hideAll(); // Hide all elements in the group
+group.hideAll('me'); // Hide all elements except the element to which this key ('me') is referencing
+group.hideAll('me',function(){console.log('Hide everyone except me. I like me')}); // Same as above, only difference is that function is invoked after hide operation
+group.hideAll(function(){console.log('Hide everyone!!!! And then scream about hiding everyone')}); // Hide all elements and then run function after
+```
+Coming soon, `group.toggle()` and some css stuff. Until then, off to [Impaka!!!!](https://github.com/Kitanga/Impaka)
 ## Tests
 
 Check the test folder for help on using this API
 
 ## Contributors
 
-Contributions are welcome. Heavily commenting your work and using JSDOC is highly recommended.
+Contributions are welcome.
+
+You can fork/clone this project. Then if you have any new ideas create a descriptive branch and work from there. Then send a pull request to the dev branch here so that we can discuss/review.
 
 ## License
 

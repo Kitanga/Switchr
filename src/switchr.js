@@ -5,15 +5,15 @@
  * @file         Hide/show DOM Elements
  * @author       [Kitanga Nday]{@link https://twitter.com/kitanga_nday}
  * @copyright    2016 Kitanga Nday All rights reserved
- * @license      [MIT License]{@link https://github.com/Kitanga/Impaka/blob/master/LICENSE}
- * @version      v1.0.0-unstable
+ * @license      [MIT License]{@link https://github.com/Kitanga/Switchr/blob/master/LICENSE}
+ * @version      v1.0.0-stable
  */
 
 /**
- * NDAYSwitchr - DOM element manipulator
- * @namespace NDAYSwitchr
+ * Switchr - DOM element manipulator
+ * @namespace Switchr
  */
-var Switchr = ( /** @lends NDAYSwitchr */ function(win) {
+var Switchr = ( /** @lends Switchr */ function(win) {
 
     var self = this;
 
@@ -104,7 +104,7 @@ var Switchr = ( /** @lends NDAYSwitchr */ function(win) {
                 key(element.domEle); /* Invoke callBack() */
             }
             if (self.checkType(ftn, 'function')) {
-                ftn(this.elements[key[i]].domEle); /* Invoke ftn() */
+                ftn(this.elements[key].domEle); /* Invoke ftn() */
             }
         };
 
@@ -190,42 +190,42 @@ var Switchr = ( /** @lends NDAYSwitchr */ function(win) {
 
     this.checkType = function(_obj, _type) {
         if (typeof _type === 'string') {
-            var isType = undefined;
+            var isType;
             switch (_type) {
                 case 'string':
                     if (typeof _obj === 'string') {
                         isType = true;
                     } else {
                         isType = false;
-                    };
+                    }
                     break;
                 case 'array':
                     if (_obj.constructor === Array) {
                         isType = true;
                     } else {
                         isType = false;
-                    };
+                    }
                     break;
                 case 'undefined':
                     if (_obj === undefined) {
                         isType = true;
                     } else {
                         isType = false;
-                    };
+                    }
                     break;
                 case 'function':
                     if (typeof _obj === 'function') {
                         isType = true;
                     } else {
                         isType = false;
-                    };
+                    }
                     break;
                 case 'object':
                     if (typeof _obj === 'object') {
                         isType = true;
                     } else {
                         isType = false;
-                    };
+                    }
                     break;
                 default:
                     console.error("Error: Something's up with parameter #2");
@@ -304,7 +304,7 @@ var Switchr = ( /** @lends NDAYSwitchr */ function(win) {
             console.error("There are no parameters or your param isn't a string");
             console.info('Please add either a string or array of strings as parameter');
         }
-    }
+    };
     this.createGroup = function(key) {
         this.Groups[key] = new Group(key);
     };
