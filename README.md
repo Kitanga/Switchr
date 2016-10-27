@@ -29,8 +29,7 @@ Check the test folder for help on using this API
 
 ## Contributors
 
-If you plan on helping to add or fix anything in this repo you can fork/clone it.
-However, I do advice you to extensively comment what you are doing. I will not accept anything that isn't heavily commented.
+Contributions are welcome. Heavily commenting your work and using JSDOC is highly recommended.
 
 ## License
 
