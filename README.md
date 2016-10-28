@@ -1,6 +1,6 @@
 # Switchr
 
-Switchr is a simple API written in JavaScript that does very simple DOM manipulations. Curently it only shows and hides elements.
+Switchr is a simple API written in JavaScript that does very simple DOM manipulations. Currently, it only shows and hides elements.
 
 ## Contents
 - [Motivation](#motivation)
@@ -12,7 +12,7 @@ Switchr is a simple API written in JavaScript that does very simple DOM manipula
 
 ## Motivation
 
-I wanted to create a small API to control my menus in my games (I develop html5 games using [PhaserJS](http://phaser.io) btw). The menus are DOM based not canvas based and I wanted an easy way of controlling what menu shows and when. I soon realized that it could be used for more than just plain menus but also any UI I wanted to integrate it into.
+I wanted to create a small API to control my menus in my games (I develop html5 games using [PhaserJS](http://phaser.io) btw). The menus are DOM based not canvas based and I wanted an easy way of controlling what menu shows and when. I soon realized that I could make a simple API to do all my 'element switching' for me. Hence, Switchr a.k.a NDAYSwitchr was born.
 
 ## Installation
 
@@ -21,22 +21,21 @@ Take a copy of `Switchr.js` from the `src` folder and place it into your project
 <script src="js/Switchr.js"></script>
 <script src="js/main.js"></script>
 ```
+Now in `main.js` you add the code that uses `Switchr`
 
 ## API Reference
 
-Now in `main.js` you add the code that uses `Switchr.js`
-
-This is how Switchr.js works:
+This is how Switchr works:
 - Create Group
 - Add Element to Group
 - Manipulate elements using Group methods
 
-You create the group by initializing
+You create the group by initializing switchr
 ```javascript
 var swr = Switchr;
 swr.init() // Initializing Switchr creates a group known as 'Father'
 ```
-You can also initialize group by placing an array as it's param. The array must hold strings as it's elements.
+You can also initialize switchr by placing an array as init's param. The array must hold strings as it's elements.
 ```javascript
 var array = [
     'first',
@@ -46,28 +45,28 @@ var array = [
 ];
 swr.init(array); // This will create 4 groups with the reference keys being the strings in array
 ```
-If you've already initialized, but want to add a group you can use `swr.addGroup()`
+If you've already initialized, but want to add a group later you can use `swr.addGroup()`
 ```javascript
-swr.addGroup(); // Accepts a string or array of strings
+swr.addGroup('string'||[]); // Accepts a string or array of strings
 ```
 Now to add elements to the group you'll need to get the group first.
 ```javascript
 swr.group(); // This will get the first group (Use this only when you have one group. I.e, you used .init() )
 ```
-And if you have many groups then you can easily get them (I'm trying to rememeber what the term is but can't find the word. Is it to get the reference?) like so
+And if you have many groups then you can easily get the one you want like so
 ```javascript
 swr.group('etc');
 // or
 var group = swr.group('etc');
 ```
-OK, so on to adding elements to groups
+OK, so on to adding elements into groups
 ```javascript
 group.add('me'); // This will add the element with the ID of 'me' and also give it the reference key 'me'
 group.add(['me','me-too']); // Add all elements inside array into group
 group.add('key','id'); // Add an element and define it's key and ID value independently
 group.add(['me','me-too'],['id1','id2']); // Add new elements for each key/string in the first array and use the corresponding ID in the second array
 ``` 
-When you want to manipulate elements, you have a couple of options and also a couple of different ways of invoking the option
+When you want to manipulate elements, you have a couple of options and also a couple of different ways of invoking said options
 ```javascript
 // First is the hide/show functions
 // I'll be using the hide function only, but replace it with show, because they are pretty much mirrors of each other.
@@ -85,7 +84,7 @@ group.hideAll('me'); // Hide all elements except the element to which this key (
 group.hideAll('me',function(){console.log('Hide everyone except me. I like me')}); // Same as above, only difference is that function is invoked after hide operation
 group.hideAll(function(){console.log('Hide everyone!!!! And then scream about hiding everyone')}); // Hide all elements and then run function after
 ```
-Coming soon, `group.toggle()` and some css stuff. Until then, off to [Impaka!!!!](https://github.com/Kitanga/Impaka)
+Coming soon, `group.toggle()` and some css support. Until then, off to [Impaka!!!!](https://github.com/Kitanga/Impaka)
 ## Tests
 
 Check the test folder for help on using this API
