@@ -9,9 +9,13 @@
  * @version      v1.0.0-stable
  */
 
+/*TODO: Comment the whole file, every single line of code should be commented. OK almost every single line of code*/
+/*TODO: Create jsdoc code blocks */
+
 /**
  * Switchr - DOM element manipulator
  * @namespace Switchr
+ * @param {object} win Window object is given to function so that it has access to all global variables
  */
 var Switchr = ( /** @lends Switchr */ function(win) {
 
