@@ -6,11 +6,8 @@
  * @author       [Kitanga Nday]{@link https://twitter.com/kitanga_nday}
  * @copyright    2016 [Kitanga Nday]{@link https://twitter.com/kitanga_nday} All rights reserved
  * @license      [MIT License]{@link https://github.com/Kitanga/Switchr/blob/master/LICENSE}
- * @version      v1.0.0-stable
+ * @version      v1.1.0
  */
-
-/*TODO: Comment the whole file, every single line of code should be commented. OK almost every single line of code*/
-/*TODO: Create jsdoc code blocks */
 
 /**
  * Switchr - DOM element manipulator
