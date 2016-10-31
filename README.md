@@ -84,6 +84,9 @@ group.hideAll('me'); // Hide all elements except the element to which this key (
 group.hideAll('me',function(){console.log('Hide everyone except me. I like me')}); // Same as above, only difference is that function is invoked after hide operation
 group.hideAll(function(){console.log('Hide everyone!!!! And then scream about hiding everyone')}); // Hide all elements and then run function after
 ```
+
+You can also checkout the `doc` folder for more info on the API.
+
 Coming soon, `group.toggle()` and some css support. Until then, off to [Impaka!!!!](https://github.com/Kitanga/Impaka)
 ## Tests
 

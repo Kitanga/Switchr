@@ -1,4 +1,32 @@
-/*  
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: switchr.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: switchr.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/*  
  * May GOD Bless this Code, amen! (Leave this line untouched)
  */
 /**
@@ -178,27 +206,27 @@ var Switchr = ( /** @lends Switchr */ function(win) {
 
             if (!helper.ifKeyExists(key, this.elements)) { /* If the key doesn't exist in the group's element object then continue */
 
-                if (helper.checkType(key, 'string') && helper.checkType(id, 'undefined')) { /* If the key's a string and the id is undefined then... */
+                if (helper.checkType(key, 'string') &amp;&amp; helper.checkType(id, 'undefined')) { /* If the key's a string and the id is undefined then... */
 
                     /* ...we set the elements key and it's HTML Element id to key */
                     addElement(this, key, key);
-                } else if (helper.checkType(key, 'array') && helper.checkType(id, 'undefined')) { /* If the key's an array and the id is undefined then... */
+                } else if (helper.checkType(key, 'array') &amp;&amp; helper.checkType(id, 'undefined')) { /* If the key's an array and the id is undefined then... */
 
                     /* ...we do the same as done above but this time we use the array's strings as keys. */
-                    for (var i = 0, length = key.length; i < length; i++) {
+                    for (var i = 0, length = key.length; i &lt; length; i++) {
                         if (helper.checkType(key[i], 'string')) { /* Making sure that the key is a string */
                             addElement(this, key[i], key[i]);
                         }
                     }
 
-                } else if (helper.checkType(key, 'string') && helper.checkType(id, 'string')) { /* If both the key and the id are strings then... */
+                } else if (helper.checkType(key, 'string') &amp;&amp; helper.checkType(id, 'string')) { /* If both the key and the id are strings then... */
 
                     /* Use the key as the reference key (aka property name) and the ID as the id used to get the element */
                     addElement(this, key, id);
-                } else if (helper.checkType(key, 'array') && helper.checkType(id, 'array')) { /* If both the key and id are arrays then use the strings in them for the appropriate use */
+                } else if (helper.checkType(key, 'array') &amp;&amp; helper.checkType(id, 'array')) { /* If both the key and id are arrays then use the strings in them for the appropriate use */
 
-                    for (var i = 0, length = key.length; i < length; i++) {
-                        if (helper.checkType(key[i], 'string') && helper.checkType(id[i], 'string')) { /* Making sure that we are dealing with strings */
+                    for (var i = 0, length = key.length; i &lt; length; i++) {
+                        if (helper.checkType(key[i], 'string') &amp;&amp; helper.checkType(id[i], 'string')) { /* Making sure that we are dealing with strings */
                             addElement(this, key[i], id[i]);
                         }
                     }
@@ -224,7 +252,7 @@ var Switchr = ( /** @lends Switchr */ function(win) {
                 self.hideMe(this.elements[key].domEle);
             } else if (helper.checkType(key, 'array')) { /* If key is an array */
                 /* Loop through key array and get all keys to be hidden */
-                for (var i = 0, length = key.length; i < length; i++) {
+                for (var i = 0, length = key.length; i &lt; length; i++) {
                     /* Hide elements that have same key as keys in array */
                     self.hideMe(this.element[key[i]].domEle);
                     /* A function that runs after the element has been hidden */
@@ -280,7 +308,7 @@ var Switchr = ( /** @lends Switchr */ function(win) {
                 self.showMe(this.elements[key].domEle);
             } else if (helper.checkType(key, 'array')) { /* If key is an array */
                 /* Loop through key array and get all keys to be shown */
-                for (var i = 0, length = key.length; i < length; i++) {
+                for (var i = 0, length = key.length; i &lt; length; i++) {
                     /* Show elements that have same key as keys in array */
                     self.showMe(this.element[key[i]].domEle);
                     if (helper.checkType(_ftn, 'function')) { /* If _ftn is a function */
@@ -368,11 +396,11 @@ var Switchr = ( /** @lends Switchr */ function(win) {
      * @param {String} group The key you want to use to reference the group
      */
     this.addGroup = function(group) {
-        if (group && helper.ifKeyExists(group, this.Groups)) {
+        if (group &amp;&amp; helper.ifKeyExists(group, this.Groups)) {
             if (helper.checkType(group, 'string')) { /* If the parameter is a string... */
                 this.createGroup(group); /* Create 1 group using the key as the key */
             } else if (helper.checkType(group, 'array')) { /* If the param is an array... */
-                for (var i = 0, length = group.length; i < length; i++) {
+                for (var i = 0, length = group.length; i &lt; length; i++) {
                     this.createGroup(group[i]); /* Create multiple group objects using the strings in array as keys */
                 }
             }
@@ -435,7 +463,7 @@ var Switchr = ( /** @lends Switchr */ function(win) {
     this.init = function(groupKey) {
         if (groupKey) { /* If param exists */
             if (helper.checkType(groupKey, 'array')) { /* If the param's a key */
-                for (var i = 0, length = groupKey.length; i < length; i++) {
+                for (var i = 0, length = groupKey.length; i &lt; length; i++) {
                     if (helper.checkType(groupKey[i], 'string')) { /* Make sure that the key is a string*/
                         this.createGroup(groupKey[i]); /* Create groups using strings in array */
                     }
@@ -454,4 +482,26 @@ var Switchr = ( /** @lends Switchr */ function(win) {
     };
 
     return this;
-})(window);
+})(window);</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="Switchr-Group.html">Group</a></li></ul><h3>Namespaces</h3><ul><li><a href="Switchr.html">Switchr</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.2</a> on Mon Oct 31 2016 05:23:51 GMT+0300 (E. Africa Standard Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>
