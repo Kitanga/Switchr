@@ -17,13 +17,13 @@ group.hideAll(); // Hide all elements in the group.
 
 btn1.onclick = function() {
     group.show(function() { // Show element in group. In this case, the first element. The function is there to be run after the element is shown
-        alert("First element is hidden!!!!"); // Alert to test that the function works
+        alert("First element is shown!!!!"); // Alert to test that the function works
     });
 };
 
 btn2.onclick = function() {
     group.show('2', function() { // It's the same show() except this time it has a 'key' and function afterwards
-        alert("Second element is hidden!!!!");
+        alert("Second element is shown!!!!");
     });
 };
 
