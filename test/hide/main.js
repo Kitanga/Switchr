@@ -5,11 +5,13 @@ var groupKeys = ['1', '2', '3', '4'], // Create array of strings to use as keys.
     btn3 = document.getElementById('s3'), // Get button element
     btn4 = document.getElementById('s4'); // Get button element
 
-var swr = Switchr;
+var swr = new Switchr();
 
-swr.init(); // Initialize Switchr. I.e., create a single group known as 'Father'. Unless you add an array of strings then they will be created as keys for corresponding group
+// Initialize Switchr. I.e., create a single group known as 'Father'. Unless you add an array of strings then they will be created as keys for corresponding group
+// swr.init();
 
-var group = swr.group(); // .group() returns the first group. Since there's only one group (we initialized without using any key), it's the same as using .group('Father')
+// .group() returns the first group. Since there's only one group (we initialized without using any key), it's the same as using .group('Father')
+var group = swr.group();
 
 group.add(groupKeys, groupIDs); // Add elements with keys to reference the elements later.
 
