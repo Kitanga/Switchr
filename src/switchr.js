@@ -6,7 +6,7 @@
  * @author       [Kitanga Nday]{@link https://twitter.com/kitanga_nday}
  * @copyright    © 2016 [Kitanga Nday]{@link https://twitter.com/kitanga_nday} All rights reserved
  * @license      [MIT License]{@link https://github.com/Kitanga/Switchr/blob/master/LICENSE}
- * @version      v1.1.0
+ * @version      v1.1.1
  */
 
 //#region
@@ -38,7 +38,7 @@ function Switchr(initParam) {
  * This is the function that hides the element. I created this because it was too repetetive in the show/hide/showAll/hideAll functions
  * @param {HTMLElement} _ele The HTML Element that needs to be hidden
  */
-Switchr.prototype.hideMe = function(_ele) {
+Switchr.prototype.hideMe = function (_ele) {
     /* If the _ele does exist */
     if (_ele) {
         /* Hide the element */
@@ -53,7 +53,7 @@ Switchr.prototype.hideMe = function(_ele) {
  * This is the function that shows the element. I created this for the same reasons as this.hideMe()
  * @param {HTMLElement} _ele The HTML element that needs to be shown
  */
-Switchr.prototype.showMe = function(_ele) {
+Switchr.prototype.showMe = function (_ele) {
     /* If _ele exists or is set */
     if (_ele) {
         /* Show element */
@@ -68,7 +68,7 @@ Switchr.prototype.showMe = function(_ele) {
  * The function used to add groups to the Groups object
  * @param {String} group The key you want to use to reference the group
  */
-Switchr.prototype.addGroup = function(group) {
+Switchr.prototype.addGroup = function (group) {
     if (group && helper.ifKeyExists(group, this.Groups)) {
         /* If the parameter is a string... */
         if (helper.checkType(group, 'string')) {
@@ -92,7 +92,7 @@ Switchr.prototype.addGroup = function(group) {
  * Creates a new instance of Group()
  * @param {String} key The string you want to use as a reference for this new group
  */
-Switchr.prototype.createGroup = function(key) {
+Switchr.prototype.createGroup = function (key) {
     this.Groups[key] = new Group(this);
 };
 
@@ -101,7 +101,7 @@ Switchr.prototype.createGroup = function(key) {
  * @param {String} [key] The key used to find the group
  * @return {Object}     The group object that the key references
  */
-Switchr.prototype.group = function(key) {
+Switchr.prototype.group = function (key) {
 
     /**
      * This is the object which will be returned for further work
@@ -143,7 +143,7 @@ Switchr.prototype.group = function(key) {
  * This initializes Switchr by creating the first group(s)
  * @param {String|Array} groupKey The string or array of strings to be used to create the groups
  */
-Switchr.prototype.init = function(groupKey) {
+Switchr.prototype.init = function (groupKey) {
     /* If param exists */
     if (groupKey) {
         /* If the param's a key */
@@ -191,7 +191,7 @@ function Group(parent) {
  * @param {string|array} key  This is the key(s) used to identify elements
  * @param {string|array} id   The element's id(s) in the html code
  */
-Group.prototype.add = function(key, id /* Add this in v2.0.0==> hideHow, showHow */ ) {
+Group.prototype.add = function (key, id /* Add this in v2.0.0==> hideHow, showHow */ ) {
 
     /* If the key doesn't exist in the group's element object then continue */
     if (!helper.ifKeyExists(key, this.elements)) {
@@ -238,7 +238,7 @@ Group.prototype.add = function(key, id /* Add this in v2.0.0==> hideHow, showHow
  * @param {array|string} key The key of the element to be hidden
  * @param {function}    _ftn Function to be invoked after hiding of element
  */
-Group.prototype.hide = function(key, _ftn) {
+Group.prototype.hide = function (key, _ftn) {
     /* Check if the key param isn't undefined */
     if (!key) {
         /* Get the first element in the elements object */
@@ -286,7 +286,7 @@ Group.prototype.hide = function(key, _ftn) {
  * @param {string}   [key] The reference key for the element that shouldn't be hidden
  * @param {function} [_ftn] The function that should run after all elements are hidden
  */
-Group.prototype.hideAll = function(key, _ftn) {
+Group.prototype.hideAll = function (key, _ftn) {
     /* For loop through elements and hide them */
     for (var i in this.elements) {
         /* Hide this element */
@@ -298,8 +298,9 @@ Group.prototype.hideAll = function(key, _ftn) {
         if (helper.checkType(key, 'string')) {
             /* This shows this element if the key param exists */
             this.parent.showMe(this.elements[key].domEle);
-            /* Check if key is a function */
-        } else if (helper.checkType(key, 'function')) {
+        }
+        /* Check if key is a function */
+        else if (helper.checkType(key, 'function')) {
             key();
         }
     }
@@ -315,7 +316,7 @@ Group.prototype.hideAll = function(key, _ftn) {
  * @param {string|array}  key  The reference key of element(s) that need to be shown
  * @param {function}      _ftn  The function that should run after an element is shown
  */
-Group.prototype.show = function(key, _ftn) {
+Group.prototype.show = function (key, _ftn) {
     /* If the key param doesn't exists */
     if (!key) {
         /* Get the first element in the elements object */
@@ -365,7 +366,7 @@ Group.prototype.show = function(key, _ftn) {
  * @param {string}    key The reference key for element that shouldn't be shown
  * @param {function} _ftn The function that runs after each element is shown
  */
-Group.prototype.showAll = function(key, _ftn) {
+Group.prototype.showAll = function (key, _ftn) {
     /* For loop through elements and show them */
     for (var i in this.elements) {
         /* show this element */
@@ -403,7 +404,7 @@ var helper = {};
  * Get the length of the group. I.e, find how many elements/properties there are in an object.
  * @return {Number} Return the length
  */
-helper.getLength = function(_obj) {
+helper.getLength = function (_obj) {
     /* Counter is the object that will actually do the counting of props */
     var counter = 0;
     /* For loop through the object _obj and count how many props there are in it */
@@ -421,7 +422,7 @@ helper.getLength = function(_obj) {
  * @param {String} _type The type you want to check _obj with
  * @return {Boolean}      Returns a true/false value
  */
-helper.checkType = function(_obj, _type) {
+helper.checkType = function (_obj, _type) {
     if (typeof _type === 'string') {
         /* This is the boolean that verifies if _obj is the wanted type (described by _type) */
         var isType = false;
@@ -472,7 +473,7 @@ helper.checkType = function(_obj, _type) {
  * @param {Object} _obj Object to get first element from
  * @return {Object}      Returns whatever the first element is
  */
-helper.getFirst = function(_obj) {
+helper.getFirst = function (_obj) {
     /* The object to return */
     var toReturn = false;
 
@@ -507,7 +508,7 @@ helper.getFirst = function(_obj) {
  * @param {{}} _obj The object we are searching in
  * @return {Boolean}    Return true or false
  */
-helper.ifKeyExists = function(key, _obj) {
+helper.ifKeyExists = function (key, _obj) {
     /* This is where the existence of the key is stored */
     var exists = false;
     for (var i in _obj) {
@@ -528,7 +529,7 @@ helper.ifKeyExists = function(key, _obj) {
  * @param {string} _key The reference string used to find elements
  * @param {string} _id  ID used to find HTML Elements
  */
-helper.addElement = function(_obj, _key, _id) {
+helper.addElement = function (_obj, _key, _id) {
     _obj.elements[_key] = {
         'domEle': document.getElementById(_id)
     };
